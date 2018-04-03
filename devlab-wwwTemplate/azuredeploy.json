@@ -1,0 +1,388 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_virtualmachine0_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+      "virtualMachines_virtualmachine1_adminPassword": {
+        "defaultvalue": null,
+        "type": "SecureString"
+
+      },       
+       "availabilitySets_availabilityset_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "virtualMachines_virtualmachine0_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "virtualMachines_virtualmachine1_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "networkInterfaces_vmnic0_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "networkInterfaces_vmnic1_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "networkSecurityGroups_securitygroup_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "publicIPAddresses_publicipvm0_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "publicIPAddresses_publicipvm1_name": {
+            "defaultValue": null,
+          "type": "String"
+        },
+        "domainNameLabel_dnsnamevm0_name": {
+        "defaultValue": null,
+        "type": "String"
+        },
+        "domainNameLabel_dnsnamevm1_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "virtualNetworks_vnetwork_name": {
+            "defaultValue": null,
+            "type": "String"
+        },
+        "storageAccounts_storageaccount_name": {
+            "defaultValue": null,
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Compute/availabilitySets/avsams'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "sku": {
+                "name": "Classic"
+            },
+            "name": "[parameters('availabilitySets_availabilityset_name')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 2,
+                "virtualMachines": [
+                    {
+                        "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_virtualmachine0_name'))]"
+                    },
+                    {
+                        "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_virtualmachine1_name'))]"
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Compute/virtualMachines/vmams0'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_virtualmachine0_name')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_availabilityset_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_virtualmachine0_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_storageaccount_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_virtualmachine0_name'),'20170627125028.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_virtualmachine0_name')]",
+                    "adminUsername": "vmadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                  "secrets": [],
+                  "adminPassword": "[parameters('virtualMachines_virtualmachine0_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmnic0_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_availabilityset_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageaccount_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmnic0_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Compute/virtualMachines/vmams1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_virtualmachine1_name')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_availabilityset_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_virtualmachine1_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_storageaccount_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_virtualmachine1_name'),'20170627125827.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_virtualmachine1_name')]",
+                    "adminUsername": "vmadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                  "secrets": [],
+                  "adminPassword": "[parameters('virtualMachines_virtualmachine1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmnic1_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_availabilityset_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageaccount_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmnic1_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/networkInterfaces/vmams0837'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_vmnic0_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "192.168.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_publicipvm0_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnetwork_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+              "dnsSettings": {
+                "dnsServers": [ ]
+              },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_securitygroup_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_publicipvm0_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnetwork_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_securitygroup_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/networkInterfaces/vmams145'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_vmnic1_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "192.168.1.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_publicipvm1_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnetwork_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_securitygroup_name'))]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_publicipvm1_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_vnetwork_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_securitygroup_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/networkSecurityGroups/nsgams'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_securitygroup_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowHTTP",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/publicIPAddresses/pipamsvm0'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_publicipvm0_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('domainNameLabel_dnsnamevm0_name')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/publicIPAddresses/pipamsvm1'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_publicipvm1_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('domainNameLabel_dnsnamevm1_name')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgAmsterdam/providers/Microsoft.Network/virtualNetworks/vnetams'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_vnetwork_name')]",
+            "apiVersion": "2017-03-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "192.168.1.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "addressPrefix": "192.168.1.0/26"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": []
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/80fdb914-d2b7-4fdd-b8d6-abb17a389429/resourceGroups/rgamsterdam/providers/Microsoft.Storage/storageAccounts/storams'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_storageaccount_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "scale": null,
+            "properties": {},
+            "dependsOn": []
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_virtualmachine0_adminPassword": {
+            "value": "P@ssword.123!"
+        },
+        "virtualMachines_virtualmachine1_adminPassword": {
+            "value": "P@ssword.123!"
+        },        
+        "availabilitySets_availabilityset_name": {
+            "value": "youravsname"
+        },
+        "virtualMachines_virtualmachine0_name": {
+            "value": "yourvm0name"
+        },
+        "virtualMachines_virtualmachine1_name": {
+            "value": "yourvm1name"
+        },
+        "networkInterfaces_vmnic0_name": {
+            "value": "vmvirg0837"
+        },
+        "networkInterfaces_vmnic1_name": {
+            "value": "vmvirg145"
+        },
+        "networkSecurityGroups_securitygroup_name": {
+            "value": "yournsgname"
+        },
+        "publicIPAddresses_publicipvm0_name": {
+            "value": "yourpipnamevm0"
+        },
+        "publicIPAddresses_publicipvm1_name": {
+            "value": "yourpipnamevm1"
+        },
+        "domainNameLabel_dnsnamevm0_name": {
+            "value": "yourdnsnamevm0"
+        },
+        "domainNameLabel_dnsnamevm1_name": {
+            "value": "yourdnsnamevm1"
+        },
+        "virtualNetworks_vnetwork_name": {
+            "value": "yourvnetname"
+        },
+        "storageAccounts_storageaccount_name": {
+            "value": "youruniquestorageaccount"
+        }
+    }
+}
